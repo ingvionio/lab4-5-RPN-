@@ -10,7 +10,9 @@ class Program
         for (int i = 0; i < input.Length; i++)
         {
             if ((char.IsDigit(input[i]) == false) && (input[i] != ' '))
+            {
                 tokenList.Add(input[i]);
+            }
 
             else if ((char.IsDigit(input[i]) == true) && (input[i]) != ' ')
             {
@@ -24,7 +26,7 @@ class Program
                         break;
                 }
 
-                tokenList.Add(Convert.ToInt32(number));
+                tokenList.Add(Convert.ToDouble(number));
                 i--;
 
             }
@@ -39,7 +41,7 @@ class Program
         foreach (object token in tokenList)
             Console.Write($"{token} ");
         Console.WriteLine();
-        Hashtable index = new Hashtable();
+        Dictionary<char, int> index = new Dictionary<char, int>();
         index.Add('+', 1);
         index.Add('-', 1);
         index.Add('*', 2);
@@ -55,28 +57,34 @@ class Program
 
     }
 
-    public static List<object> ToRPN(List<object> tokenList, Hashtable operations)
+    public static List<object> ToRPN(List<object> tokenList, Dictionary<char, int> operations)
     {
-        var stack = new Stack<object>();
-        var RPN = new List<object>();
+        Stack<object> stack = new Stack<object>();
+        List<object> RPN = new List<object>();
 
         for (int i = 0; i < tokenList.Count; i++)
         {
-            int a = Convert.ToInt32(operations[tokenList[i]]);
-            if (tokenList[i].GetType() == typeof(Int32) || tokenList[i].GetType() == typeof(double))
+
+            if (tokenList[i] is double)
+            {
                 RPN.Add(tokenList[i]);
-            else if ((stack.Count == 0) || (Convert.ToInt32(operations[tokenList[i]]) >= Convert.ToInt32(operations[stack.Peek()])) || (Convert.ToInt32(operations[stack.Peek()]) == 10))
+            }
+
+            else if ((stack.Count == 0) || ((operations[(char)tokenList[i]]) >= operations[(char)stack.Peek()]) || (operations[(char)stack.Peek()] == 10))
             {
                 stack.Push(tokenList[i]);
             }
+
             else
             {
-                while (Convert.ToInt32(operations[tokenList[i]]) < Convert.ToInt32(operations[stack.Peek()]))
+                while (operations[(char)tokenList[i]] < operations[(char)stack.Peek()])
                 {
 
                     if (stack.Count == 0)
+                    {
                         break;
-                    if (Convert.ToInt32(operations[stack.Peek()]) == 10)
+                    }
+                    if (operations[(char)stack.Peek()] == 10)
                     {
                         stack.Pop();
                         break;
@@ -84,8 +92,10 @@ class Program
                     else
                         RPN.Add(stack.Pop());
                 }
-                if (Convert.ToInt32(operations[tokenList[i]]) != 0)
+                if (operations[(char)tokenList[i]] != 0)
+                {
                     stack.Push(tokenList[i]);
+                }
             }
         }
         while (stack.Count > 0)
@@ -93,44 +103,40 @@ class Program
         return RPN;
     }
 
+
+
     public static double Calculate(List<object> RPN)
     {
+        Stack stack = new Stack();
+
         for (int i = 0; i < RPN.Count; i++)
         {
-            if (Convert.ToChar(RPN[i]) == '+')
+            if (RPN[i] is double)
             {
-                RPN[i - 1] = Convert.ToDouble(RPN[i - 2]) + Convert.ToDouble(RPN[i - 1]);
-                RPN.RemoveAt(i);
-                RPN.RemoveAt(i - 2);
-                i -= 2;
-                continue;
+                stack.Push(RPN[i]);
             }
-            if (Convert.ToChar(RPN[i]) == '-')
+            else
             {
-                RPN[i - 1] = Convert.ToDouble(RPN[i - 2]) - Convert.ToDouble(RPN[i - 1]);
-                RPN.RemoveAt(i);
-                RPN.RemoveAt(i - 2);
-                i -= 2;
-                continue;
-            }
-            if (Convert.ToChar(RPN[i]) == '*')
-            {
-                RPN[i - 1] = Convert.ToDouble(RPN[i - 2]) * Convert.ToDouble(RPN[i - 1]);
-                RPN.RemoveAt(i);
-                RPN.RemoveAt(i - 2);
-                i -= 2;
-                continue;
-            }
-            if (Convert.ToChar(RPN[i]) == '/')
-            {
-                RPN[i - 1] = Convert.ToDouble(RPN[i - 2]) / Convert.ToDouble(RPN[i - 1]);
-                RPN.RemoveAt(i);
-                RPN.RemoveAt(i - 2);
-                i -= 2;
-                continue;
+                switch ((char)RPN[i])
+                {
+                    case '+':
+                        stack.Push((double)stack.Pop() + (double)stack.Pop());
+                        continue;
+                    case '-':
+                        stack.Push((double)stack.Pop() - (double)stack.Pop());
+                        continue;
+                    case '*':
+                        stack.Push((double)stack.Pop() * (double)stack.Pop());
+                        continue;
+                    case '/':
+                        stack.Push((double)stack.Pop() / (double)stack.Pop());
+                        continue;
+
+                }
             }
         }
-        double result = Convert.ToDouble(RPN[0]);
+
+        double result = (double)stack.Pop();
         return result;
     }
 }

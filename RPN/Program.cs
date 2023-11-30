@@ -4,6 +4,21 @@ using System.Collections.Generic;
 
 public abstract class Token
 {
+    public static void Print(Token token)
+    {
+        if (token is Operation)
+        {
+            Console.Write($" {((Operation)token).Value}");
+        }
+        else if (token is Number)
+        {
+            Console.Write($" {((Number)token).Value}");
+        }
+        else
+        {
+            Console.Write($" {((Parenthesis)token).Value}");
+        }
+    }
 }
 
 public class Parenthesis : Token
@@ -68,13 +83,19 @@ class Program
         index.Add('-', 1);
         index.Add('*', 2);
         index.Add('/', 2);
+
         List<Token> tokenList = Parse("12+6*  (4+3)+10*5+3", index);
-        /* foreach (Token token in tokenList)
-             Console.Write($"{token.GetType} ");
-         Console.WriteLine();*/
+
+        foreach (Token token in tokenList)
+            Token.Print(token);
+        Console.WriteLine();
+
         List<Token> rpn = ToRPN(tokenList, index);
-        /*foreach (Token elements in rpn)
-            Console.Write($"{elements} ");*/
+
+        foreach (Token elements in rpn)
+            Token.Print(elements);
+        Console.WriteLine();
+
         Console.WriteLine(Calculate(rpn));
     }
 

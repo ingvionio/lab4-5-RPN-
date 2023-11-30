@@ -1,20 +1,47 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
+using System;
+using System.Collections.Generic;
+
+public abstract class Token
+{
+}
+
+public class Parenthesis : Token
+{
+    public char Value;
+}
+
+public class Number : Token
+{
+    public double Value;
+}
+
+public class Operation : Token
+{
+    public char Value;
+    public int priority;
+}
 
 class Program
 {
-
-    public static List<object> Parse(string input)
+    public static List<Token> Parse(string input, Dictionary<char, int> index)
     {
-        List<object> tokenList = new List<object>();
+        List<Token> tokenList = new List<Token>();
         for (int i = 0; i < input.Length; i++)
         {
             if ((char.IsDigit(input[i]) == false) && (input[i] != ' '))
             {
-                tokenList.Add(input[i]);
+                if (input[i] == '(' || input[i] == ')')
+                {
+                    tokenList.Add(new Parenthesis { Value = input[i] });
+                }
+                else
+                {
+                    tokenList.Add(new Operation { Value = input[i], priority = index[input[i]] });
+                }
             }
 
-            else if ((char.IsDigit(input[i]) == true) && (input[i]) != ' ')
+            else if ((char.IsDigit(input[i]) == true) && (input[i] != ' '))
             {
                 string number = null;
 
@@ -26,9 +53,8 @@ class Program
                         break;
                 }
 
-                tokenList.Add(Convert.ToDouble(number));
+                tokenList.Add(new Number { Value = Convert.ToDouble(number) });
                 i--;
-
             }
         }
 
@@ -37,106 +63,116 @@ class Program
 
     static void Main()
     {
-        List<object> tokenList = Parse("12+6*  (4+3)+10*5+3");
-        foreach (object token in tokenList)
-            Console.Write($"{token} ");
-        Console.WriteLine();
         Dictionary<char, int> index = new Dictionary<char, int>();
         index.Add('+', 1);
         index.Add('-', 1);
         index.Add('*', 2);
         index.Add('/', 2);
-        index.Add('(', 10);
-        index.Add(')', 0);
-
-        List<object> rpn = ToRPN(tokenList, index);
-        foreach (object elements in rpn)
-            Console.Write($"{elements} ");
+        List<Token> tokenList = Parse("12+6*  (4+3)+10*5+3", index);
+        /* foreach (Token token in tokenList)
+             Console.Write($"{token.GetType} ");
+         Console.WriteLine();*/
+        List<Token> rpn = ToRPN(tokenList, index);
+        /*foreach (Token elements in rpn)
+            Console.Write($"{elements} ");*/
         Console.WriteLine(Calculate(rpn));
-
-
     }
 
-    public static List<object> ToRPN(List<object> tokenList, Dictionary<char, int> operations)
+    public static List<Token> ToRPN(List<Token> tokenList, Dictionary<char, int> operations)
     {
-        Stack<object> stack = new Stack<object>();
-        List<object> RPN = new List<object>();
+        Stack<Token> stack = new Stack<Token>();
+        List<Token> RPN = new List<Token>();
 
         for (int i = 0; i < tokenList.Count; i++)
         {
-
-            if (tokenList[i] is double)
+            if (tokenList[i] is Number)
             {
                 RPN.Add(tokenList[i]);
             }
 
-            else if ((stack.Count == 0) || ((operations[(char)tokenList[i]]) >= operations[(char)stack.Peek()]) || (operations[(char)stack.Peek()] == 10))
+            else if (tokenList[i] is Operation)
             {
-                stack.Push(tokenList[i]);
-            }
-
-            else
-            {
-                while (operations[(char)tokenList[i]] < operations[(char)stack.Peek()])
-                {
-
-                    if (stack.Count == 0)
-                    {
-                        break;
-                    }
-                    if (operations[(char)stack.Peek()] == 10)
-                    {
-                        stack.Pop();
-                        break;
-                    }
-                    else
-                        RPN.Add(stack.Pop());
-                }
-                if (operations[(char)tokenList[i]] != 0)
+                if ((stack.Count == 0) || (stack.Peek() is Parenthesis) || ((Operation)tokenList[i]).priority >= ((Operation)stack.Peek()).priority)
                 {
                     stack.Push(tokenList[i]);
                 }
-            }
-        }
-        while (stack.Count > 0)
-            RPN.Add(stack.Pop());
-        return RPN;
-    }
-
-
-
-    public static double Calculate(List<object> RPN)
-    {
-        Stack stack = new Stack();
-
-        for (int i = 0; i < RPN.Count; i++)
-        {
-            if (RPN[i] is double)
-            {
-                stack.Push(RPN[i]);
-            }
-            else
-            {
-                switch ((char)RPN[i])
+                else
                 {
-                    case '+':
-                        stack.Push((double)stack.Pop() + (double)stack.Pop());
-                        continue;
-                    case '-':
-                        stack.Push((double)stack.Pop() - (double)stack.Pop());
-                        continue;
-                    case '*':
-                        stack.Push((double)stack.Pop() * (double)stack.Pop());
-                        continue;
-                    case '/':
-                        stack.Push((double)stack.Pop() / (double)stack.Pop());
-                        continue;
+                    while (((Operation)tokenList[i]).priority < ((Operation)stack.Peek()).priority)
+                    {
+                        if (stack.Count == 0)
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            RPN.Add(stack.Pop());
+                        }
+                    }
 
+                    stack.Push(tokenList[i]);
+                }
+            }
+
+            else //if (tokenList[i] is Parenthesis)
+            {
+                if (((Parenthesis)tokenList[i]).Value == '(')
+                {
+                    stack.Push(tokenList[i]);
+                }
+                else
+                {
+                    while (stack.Peek() is Parenthesis == false)
+                    {
+                        RPN.Add(stack.Pop());
+                    }
+
+                    stack.Pop();
                 }
             }
         }
 
-        double result = (double)stack.Pop();
+        while (stack.Count > 0)
+        {
+            RPN.Add(stack.Pop());
+        }
+
+        return RPN;
+    }
+
+    public static double Calculate(List<Token> RPN)
+    {
+        Stack<double> stack = new Stack<double>();
+
+        for (int i = 0; i < RPN.Count; i++)
+        {
+            if (RPN[i] is Number)
+            {
+                stack.Push(((Number)RPN[i]).Value);
+            }
+
+            else
+            {
+                switch ((char)((Operation)RPN[i]).Value)
+                {
+                    case '+':
+                        stack.Push(stack.Pop() + stack.Pop());
+                        continue;
+                    case '-':
+                        stack.Push(-stack.Pop() + stack.Pop());
+                        continue;
+                    case '*':
+                        stack.Push(stack.Pop() * stack.Pop());
+                        continue;
+                    case '/':
+                        double divisor = stack.Pop();
+                        stack.Push(stack.Pop() / divisor);
+                        continue;
+                }
+            }
+        }
+
+        double result = stack.Pop();
         return result;
     }
 }

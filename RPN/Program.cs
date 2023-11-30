@@ -78,13 +78,15 @@ class Program
 
     static void Main()
     {
+        string input = "12+6*  (4+3)+10*5+3";
+
         Dictionary<char, int> index = new Dictionary<char, int>();
         index.Add('+', 1);
         index.Add('-', 1);
         index.Add('*', 2);
         index.Add('/', 2);
 
-        List<Token> tokenList = Parse("12+6*  (4+3)+10*5+3", index);
+        List<Token> tokenList = Parse(input, index);
 
         foreach (Token token in tokenList)
             Token.Print(token);

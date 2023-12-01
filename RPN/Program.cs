@@ -2,39 +2,39 @@
 using System;
 using System.Collections.Generic;
 
-public abstract class Token
+public class Token
 {
-    public static void Print(Token token)
-    {
-        if (token is Operation)
-        {
-            Console.Write($" {((Operation)token).Value}");
-        }
-        else if (token is Number)
-        {
-            Console.Write($" {((Number)token).Value}");
-        }
-        else
-        {
-            Console.Write($" {((Parenthesis)token).Value}");
-        }
-    }
+    
 }
 
 public class Parenthesis : Token
 {
     public char Value;
+
+    public override string ToString()
+    {
+        return Value.ToString();
+    }
 }
 
 public class Number : Token
 {
     public double Value;
+    public override string ToString()
+    {
+        return Value.ToString();
+    }
 }
 
 public class Operation : Token
 {
     public char Value;
     public int priority;
+
+    public override string ToString()
+    {
+        return Value.ToString();
+    }
 }
 
 class Program
@@ -89,13 +89,13 @@ class Program
         List<Token> tokenList = Parse(input, index);
 
         foreach (Token token in tokenList)
-            Token.Print(token);
+            Console.Write(token.ToString()+" ");
         Console.WriteLine();
 
         List<Token> rpn = ToRPN(tokenList, index);
 
         foreach (Token elements in rpn)
-            Token.Print(elements);
+            Console.Write(elements.ToString() + " ");
         Console.WriteLine();
 
         Console.WriteLine(Calculate(rpn));

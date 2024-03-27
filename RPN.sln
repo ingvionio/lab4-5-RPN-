@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34202.233
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RPN", "RPN\RPN.csproj", "{57D4C6C1-A11E-4527-928F-C6CFAF5F823C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPN", "RPN\RPN.csproj", "{57D4C6C1-A11E-4527-928F-C6CFAF5F823C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfForRPN", "WpfForRPN\WpfForRPN.csproj", "{D639DC1F-F9DC-4AB6-BE83-AB4886E731DA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RPN.Logic", "RPN.Logic\RPN.Logic.csproj", "{D7DCDAC3-41FD-49A1-8F0E-E6C5A612A67D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{57D4C6C1-A11E-4527-928F-C6CFAF5F823C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{57D4C6C1-A11E-4527-928F-C6CFAF5F823C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{57D4C6C1-A11E-4527-928F-C6CFAF5F823C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D639DC1F-F9DC-4AB6-BE83-AB4886E731DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D639DC1F-F9DC-4AB6-BE83-AB4886E731DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D639DC1F-F9DC-4AB6-BE83-AB4886E731DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D639DC1F-F9DC-4AB6-BE83-AB4886E731DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7DCDAC3-41FD-49A1-8F0E-E6C5A612A67D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7DCDAC3-41FD-49A1-8F0E-E6C5A612A67D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7DCDAC3-41FD-49A1-8F0E-E6C5A612A67D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7DCDAC3-41FD-49A1-8F0E-E6C5A612A67D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

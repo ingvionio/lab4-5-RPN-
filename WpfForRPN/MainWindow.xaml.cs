@@ -29,7 +29,7 @@ namespace WpfForRPN
 
         private void btnCalculate_Click(object sender, RoutedEventArgs e)
         {
-            lblOutput.Content = RpnCalculator.PerformСalculation(tbInput.Text);
+            lblOutput.Content = RpnCalculator.PerformСalculation(tbInput.Text, Convert.ToDouble(tbvariableValue.Text));
         }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)

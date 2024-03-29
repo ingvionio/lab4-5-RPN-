@@ -123,23 +123,16 @@
                     }
                     else
                     {
-                        while (((Operation)tokenList[i]).priority < ((Operation)stack.Peek()).priority)
+                        while (stack.Count != 0 && ((Operation)tokenList[i]).priority < ((Operation)stack.Peek()).priority)
                         {
-                            if (stack.Count == 0)
-                            {
-                                break;
-                            }
-                            else
-                            {
-                                RPN.Add(stack.Pop());
-                            }
+                            RPN.Add(stack.Pop());
                         }
 
                         stack.Push(tokenList[i]);
                     }
                 }
 
-                else //if (tokenList[i] is Parenthesis)
+                else
                 {
                     if (((Parenthesis)tokenList[i]).Value == '(')
                     {

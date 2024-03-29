@@ -8,10 +8,12 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <TextBox x:Name="tbInput" HorizontalAlignment="Left" Margin="202,33,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="145" Height="30" TextChanged="TextBox_TextChanged"/>
-        <Label x:Name="lblOutput" Content="" HorizontalAlignment="Left" Height="36" Margin="202,99,0,0" VerticalAlignment="Top" Width="145"/>
-        <Button x:Name="btnCalculate" Content="Вычислить" HorizontalAlignment="Left" Height="38" Margin="202,164,0,0" VerticalAlignment="Top" Width="73" Click="btnCalculate_Click"/>
-        <TextBox HorizontalAlignment="Left" Height="30" Margin="52,33,0,0" TextWrapping="Wrap" Text="Введите выражение:" VerticalAlignment="Top" Width="123" TextChanged="TextBox_TextChanged_1"/>
-        <TextBox HorizontalAlignment="Left" Height="30" Margin="98,102,0,0" TextWrapping="Wrap" Text="Результат:" VerticalAlignment="Top" Width="77" TextChanged="TextBox_TextChanged_1"/>
+        <Label x:Name="lblOutput" Content="" HorizontalAlignment="Left" Height="36" Margin="202,152,0,0" VerticalAlignment="Top" Width="144"/>
+        <Button x:Name="btnCalculate" Content="Вычислить" HorizontalAlignment="Left" Height="38" Margin="202,217,0,0" VerticalAlignment="Top" Width="72" Click="btnCalculate_Click"/>
+        <TextBox x:Name="tbvariableValue" HorizontalAlignment="Left" Height="35" Margin="202,87,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="144"/>
+        <TextBlock HorizontalAlignment="Left" Height="35" Margin="41,87,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="134"><Run Language="ru-ru" Text="Значение переменной:"/></TextBlock>
+        <TextBlock HorizontalAlignment="Left" Height="35" Margin="41,35,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="134"><Run Language="ru-ru" Text="Введите выражение:"/></TextBlock>
+        <TextBlock HorizontalAlignment="Left" Height="35" Margin="108,157,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="56"><Run Language="ru-ru" Text="Результат:"/></TextBlock>
 
     </Grid>
 </Window>

@@ -5,15 +5,33 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfForRPN"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="494" Width="800">
     <Grid>
         <TextBox x:Name="tbInput" HorizontalAlignment="Left" Margin="202,33,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="145" Height="30" TextChanged="TextBox_TextChanged"/>
         <Label x:Name="lblOutput" Content="" HorizontalAlignment="Left" Height="36" Margin="202,152,0,0" VerticalAlignment="Top" Width="144"/>
-        <Button x:Name="btnCalculate" Content="Вычислить" HorizontalAlignment="Left" Height="38" Margin="202,217,0,0" VerticalAlignment="Top" Width="72" Click="btnCalculate_Click"/>
+        <Button x:Name="btnCalculate" Content="Вычислить" HorizontalAlignment="Left" Height="38" Margin="118,217,0,0" VerticalAlignment="Top" Width="72" Click="btnCalculate_Click"/>
         <TextBox x:Name="tbvariableValue" HorizontalAlignment="Left" Height="35" Margin="202,87,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="144"/>
         <TextBlock HorizontalAlignment="Left" Height="35" Margin="41,87,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="134"><Run Language="ru-ru" Text="Значение переменной:"/></TextBlock>
         <TextBlock HorizontalAlignment="Left" Height="35" Margin="41,35,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="134"><Run Language="ru-ru" Text="Введите выражение:"/></TextBlock>
         <TextBlock HorizontalAlignment="Left" Height="35" Margin="108,157,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="56"><Run Language="ru-ru" Text="Результат:"/></TextBlock>
-
+        <Canvas x:Name="Graph" Width="200" Height="200" Margin="400,125,200,153" MouseMove="Graph_MouseMove" Background="Transparent" Loaded="Graph_Loaded" ClipToBounds="True">
+            <Border BorderBrush="DarkGray" BorderThickness="1,1,1,1" Grid.Column ="0" Height="200" Width="200" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+        </Canvas>
+        <TextBox x:Name="tbZoom" HorizontalAlignment="Left" Margin="621,274,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="144" Height="31" TextChanged="TextBox_TextChanged_2">
+            <UIElement.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </UIElement.RenderTransform>
+        </TextBox>
+        <Label x:Name="lblUiCord" Content="" HorizontalAlignment="Left" Margin="438,349,0,0" VerticalAlignment="Top" Width="62"/>
+        <Label x:Name="lblMathCord" Content="" HorizontalAlignment="Left" Margin="500,349,0,0" VerticalAlignment="Top" Width="63"/>
+        <TextBox x:Name="tbStart" HorizontalAlignment="Left" Margin="621,135,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="tbEnd" HorizontalAlignment="Left" Margin="621,175,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="tbStep" HorizontalAlignment="Left" Margin="621,217,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <Button x:Name="renew" Content="Обновить" HorizontalAlignment="Left" Margin="653,349,0,0" VerticalAlignment="Top" Click="renew_Click"/>
     </Grid>
 </Window>

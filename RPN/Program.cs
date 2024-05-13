@@ -10,7 +10,8 @@ namespace RPN.ConsoleApp
     {
         static void Main()
         {
-            string input = "12+6*  (4+3)+10*5+3";
+            string input = "x+2";
+            double x = 5;
 
             Dictionary<char, int> index = new Dictionary<char, int>();
             index.Add('+', 1);
@@ -30,7 +31,7 @@ namespace RPN.ConsoleApp
                 Console.Write(elements.ToString() + " ");
             Console.WriteLine();
 
-            Console.WriteLine(RpnCalculator.Calculate(rpn));
+            Console.WriteLine(RpnCalculator.Calculate(rpn,x));
         }
     }   
 }

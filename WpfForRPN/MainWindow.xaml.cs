@@ -48,13 +48,11 @@ namespace WpfForRPN
             float step = float.Parse(tbStep.Text);
             float zoom = float.Parse(tbZoom.Text);
 
-            var canc= new CanvasDrawer(Graph, xStart, xEnd, step, zoom);
-            canc.DrawAxis();
-        }
+            var canvas= new CanvasDrawer(Graph, xStart, xEnd, step, zoom);
+            canvas.DrawAxis();
 
-        private void btnCalculate_Click(object sender, RoutedEventArgs e)
-        {
-            lblOutput.Content = RpnCalculator.PerformСalculation(tbInput.Text, Convert.ToDouble(tbvariableValue.Text));
+            CanvasDrawer.DrawLines(Graph, canvas.CalculatePoints(tbInput.Text));
+            
         }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)

@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using RPN.Logic;
+using System.Windows.Documents;
 
 namespace WpfForRPN
 {
@@ -52,6 +54,40 @@ namespace WpfForRPN
             _zoom = zoom;
         }
 
+        public List<Point> CalculatePoints(string expression)
+        {
+            var points = new List<Point>();
+            for (double x = _xStart; x <= _xEnd; x = x+_step)
+            {
+                double y = RpnCalculator.PerformСalculation(expression, x);
+                var point = new Point(x, y);
+                points.Add(PointExtensions.ToUiCoordinates(point, _canvas, _zoom));
+            }
+
+            return points;
+        }
+
+        public static void DrawLines(Canvas canvas, List<Point> points)
+        {
+            for (int i = 0; i < points.Count-1; i++)
+            {
+                DrawLine(canvas, points[i], points[i + 1], Brushes.Green);
+            }
+        }
+
+        public static void DrawLine(Canvas canvas, Point startPoint, Point endPoint, Brush color)
+        {
+            Line line = new Line
+            {
+                X1 = startPoint.X,
+                Y1 = startPoint.Y,
+                X2 = endPoint.X,
+                Y2 = endPoint.Y,
+                Stroke = color,
+                StrokeThickness = 1
+            };
+            canvas.Children.Add(line);
+        }
         public static void DrawLine(Canvas canvas, Point startPoint, Point endPoint)
         {
             Line line = new Line
@@ -63,15 +99,37 @@ namespace WpfForRPN
                 Stroke = Brushes.Black,
                 StrokeThickness = 1
             };
-
             canvas.Children.Add(line);
-
         }
 
-        public void DrawAxis() 
+        public void DrawAxis()
         {
-            DrawLine(_canvas, xAxisStart, xAxisEnd);
-            DrawLine(_canvas, yAxisStart, yAxisEnd);
+            DrawLineWithArrow(_canvas, xAxisEnd, xAxisStart);
+            DrawLineWithArrow(_canvas, yAxisStart, yAxisEnd);
+        }
+
+        private void DrawLineWithArrow(Canvas canvas, Point startPoint, Point endPoint)
+        {
+            DrawLine(canvas, startPoint, endPoint);
+            double arrowLength = 10;
+            double arrowAngle = Math.PI / 6; // 30 degrees
+
+            // Calculate the angle of the line
+            double angle = Math.Atan2(endPoint.Y - startPoint.Y, endPoint.X - startPoint.X);
+
+            // Calculate the arrow points
+            Point arrowPoint1 = new Point(
+                endPoint.X - arrowLength * Math.Cos(angle - arrowAngle),
+                endPoint.Y - arrowLength * Math.Sin(angle - arrowAngle)
+            );
+
+            Point arrowPoint2 = new Point(
+                endPoint.X - arrowLength * Math.Cos(angle + arrowAngle),
+                endPoint.Y - arrowLength * Math.Sin(angle + arrowAngle)
+            );
+
+            DrawLine(canvas, endPoint, arrowPoint1);
+            DrawLine(canvas, endPoint, arrowPoint2);
         }
     }
 }

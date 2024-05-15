@@ -5,14 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfForRPN"
         mc:Ignorable="d"
-        Title="MainWindow" Height="494" Width="800">
+        Title="MainWindow" Height="588" Width="919">
     <Grid>
-        <TextBox x:Name="tbInput" HorizontalAlignment="Left" Margin="202,33,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="145" Height="30" TextChanged="TextBox_TextChanged"/>
-        <TextBlock HorizontalAlignment="Left" Height="35" Margin="41,35,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="134"><Run Language="ru-ru" Text="Введите выражение:"/></TextBlock>
-        <Canvas x:Name="Graph" Width="200" Height="200" Margin="400,125,200,153" MouseMove="Graph_MouseMove" Background="Transparent" Loaded="Graph_Loaded" ClipToBounds="True">
-            <Border BorderBrush="DarkGray" BorderThickness="1,1,1,1" Grid.Column ="0" Height="200" Width="200" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-        </Canvas>
-        <TextBox x:Name="tbZoom" HorizontalAlignment="Left" Margin="621,274,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="144" Height="31" TextChanged="TextBox_TextChanged_2">
+        <TextBox x:Name="tbInput" HorizontalAlignment="Left" Margin="207,16,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="145" Height="30" TextChanged="TextBox_TextChanged" Text="x+1"/>
+        <TextBlock HorizontalAlignment="Left" Height="35" Margin="46,18,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="134"><Run Language="ru-ru" Text="Введите выражение:"/></TextBlock>
+        <Border BorderBrush="Black" BorderThickness="2" CornerRadius="0" Margin="41,53,304,33">
+            <Canvas x:Name="Graph" MouseMove="Graph_MouseMove" Background="Transparent" Loaded="Graph_Loaded" ClipToBounds="True" Height="461" VerticalAlignment="Top"/>
+        </Border>
+        <TextBox x:Name="tbZoom" HorizontalAlignment="Left" Margin="647,275,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="22" Text="30">
             <UIElement.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -22,11 +22,15 @@
                 </TransformGroup>
             </UIElement.RenderTransform>
         </TextBox>
-        <Label x:Name="lblUiCord" Content="" HorizontalAlignment="Left" Margin="438,349,0,0" VerticalAlignment="Top" Width="62"/>
-        <Label x:Name="lblMathCord" Content="" HorizontalAlignment="Left" Margin="500,349,0,0" VerticalAlignment="Top" Width="63"/>
-        <TextBox x:Name="tbStart" HorizontalAlignment="Left" Margin="621,135,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="tbEnd" HorizontalAlignment="Left" Margin="621,175,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="tbStep" HorizontalAlignment="Left" Margin="621,217,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <Button x:Name="renew" Content="Обновить" HorizontalAlignment="Left" Margin="653,349,0,0" VerticalAlignment="Top" Click="renew_Click"/>
+        <Label x:Name="lblUiCord" Content="" HorizontalAlignment="Left" Margin="46,520,0,0" VerticalAlignment="Top" Width="62"/>
+        <Label x:Name="lblMathCord" Content="" HorizontalAlignment="Left" Margin="108,520,0,0" VerticalAlignment="Top" Width="62"/>
+        <TextBox x:Name="tbStart" HorizontalAlignment="Left" Margin="647,136,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="-10"/>
+        <TextBox x:Name="tbEnd" HorizontalAlignment="Left" Margin="647,176,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="10"/>
+        <TextBox x:Name="tbStep" HorizontalAlignment="Left" Margin="647,218,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="1"/>
+        <Button x:Name="renew" Content="Обновить" HorizontalAlignment="Left" Margin="679,350,0,0" VerticalAlignment="Top" Click="renew_Click"/>
+        <TextBlock HorizontalAlignment="Left" Margin="647,115,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Language="ru-ru" Text="Начало"/></TextBlock>
+        <TextBlock HorizontalAlignment="Left" Margin="647,155,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Language="ru-ru" Text="Конец"/></TextBlock>
+        <TextBlock HorizontalAlignment="Left" Margin="647,199,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Language="ru-ru" Text="Шаг"/></TextBlock>
+        <TextBlock HorizontalAlignment="Left" Margin="644,251,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Language="ru-ru" Text="Масштаб"/></TextBlock>
     </Grid>
 </Window>

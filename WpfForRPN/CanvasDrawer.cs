@@ -72,7 +72,21 @@ namespace WpfForRPN
             for (int i = 0; i < points.Count-1; i++)
             {
                 DrawLine(canvas, points[i], points[i + 1], Brushes.Green);
+                DrawPoint(canvas, points[i], Brushes.Red);
             }
+        }
+
+        public static void DrawPoint(Canvas canvas, Point point, Brush color)
+        {
+            Ellipse ellipse = new Ellipse
+            {
+                Width = 5,
+                Height = 5,
+                Fill = color
+            };
+            Canvas.SetLeft(ellipse, point.X - ellipse.Width / 2);
+            Canvas.SetTop(ellipse, point.Y - ellipse.Height / 2);
+            canvas.Children.Add(ellipse);
         }
 
         public static void DrawLine(Canvas canvas, Point startPoint, Point endPoint, Brush color)
@@ -106,8 +120,22 @@ namespace WpfForRPN
         {
             DrawLineWithArrow(_canvas, xAxisEnd, xAxisStart);
             DrawLineWithArrow(_canvas, yAxisStart, yAxisEnd);
+
+            DrawTickMarksOnXAxis();
         }
 
+        private void DrawTickMarksOnXAxis()
+        {
+            double tickMarkLength = 5;
+            double tickMarkStep = _zoom;
+
+            for (double x = (_xStart* _zoom + _canvas.ActualWidth / 2); x < (_xEnd * _zoom + _canvas.ActualWidth / 2); x += tickMarkStep)
+            {
+                Point startPoint = new Point(x,  (_canvas.ActualHeight / 2 - xAxisStart.Y * _zoom) - tickMarkLength);
+                Point endPoint = new Point(x, (_canvas.ActualHeight / 2 - xAxisStart.Y * _zoom) + tickMarkLength);
+                DrawLine(_canvas, startPoint, endPoint);
+            }
+        }
         private void DrawLineWithArrow(Canvas canvas, Point startPoint, Point endPoint)
         {
             DrawLine(canvas, startPoint, endPoint);

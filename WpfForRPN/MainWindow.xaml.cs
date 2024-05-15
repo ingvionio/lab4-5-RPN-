@@ -38,7 +38,7 @@ namespace WpfForRPN
 
         private void Graph_Loaded(object sender, RoutedEventArgs e)
         {
-            //RedrawCanvas();
+            RedrawCanvas();
         }
 
         private void RedrawCanvas()
@@ -47,6 +47,8 @@ namespace WpfForRPN
             float xEnd = float.Parse(tbEnd.Text);
             float step = float.Parse(tbStep.Text);
             float zoom = float.Parse(tbZoom.Text);
+
+            Graph.Children.Clear();
 
             var canvas= new CanvasDrawer(Graph, xStart, xEnd, step, zoom);
             canvas.DrawAxis();
@@ -58,16 +60,6 @@ namespace WpfForRPN
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             tbInput.Text = tbInput.Text.Trim();
-        }
-
-        private void TextBox_TextChanged_1(object sender, TextChangedEventArgs e)
-        {
-
-        }
-
-        private void TextBox_TextChanged_2(object sender, TextChangedEventArgs e)
-        {
-
         }
 
         private void renew_Click(object sender, RoutedEventArgs e)

@@ -1,4 +1,7 @@
-﻿namespace RPN.Logic
+﻿using System.ComponentModel.Design;
+using System.Text;
+
+namespace RPN.Logic
 {
     public abstract class Token
     {
@@ -33,8 +36,43 @@
         }
     }
 
+    class TokenCreate
+    {
+        private static List<Operation> _availableOperations;
+
+        private TokenCreate ()
+        {
+            _availableOperations = null;
+        }
+
+        //private static Token CreateOperation<T>(T value)
+        //{          
+
+
+        //}
+
+        public static Operation FindAvilableByName(string name)
+        {
+            if (_availableOperations == null)
+            {
+                var parent = typeof(Operation);
+                var allAssemblies = AppDomain.CurrentDomain.GetAssemblies();
+                var types = allAssemblies.SelectMany(assembly => assembly.GetTypes());
+                var inheritingTypes = types.Where(t => parent.IsAssignableFrom(t) && !t.IsAbstract).ToList();
+
+                _availableOperations = inheritingTypes.Select(type => (Operation)Activator.CreateInstance(type)).ToList();
+            }
+
+            return _availableOperations.FirstOrDefault(op => op.Name.Equals(name));
+
+        }
+    }
+
     public class RpnCalculator
     {
+        private readonly List<Token> _rpn;
+        private readonly List<char> _variableNames = new() { 'x' } ;
+   
         public static List<Token> Parse(string input, Dictionary<char, int> index)
         {
             List<Token> tokenList = new List<Token>();
@@ -42,7 +80,7 @@
             {
                 if ((char.IsDigit(input[i]) == false) && (input[i] != ' '))
                 {
-                    if (char.IsAsciiLetter(input[i]))
+                    if (char.IsAsciiLetter(input[i]) && input[i] == 'x')
                     {
                         tokenList.Add(new Variable { symbol = input[i] });
                     }
@@ -50,9 +88,21 @@
                     {
                         tokenList.Add(new Parenthesis { Value = input[i] });
                     }
+                    else if (char.IsAsciiLetter(input[i]) && input[i] != 'x')
+                    {
+                        StringBuilder operation = new StringBuilder();
+                        while (i!= input.Length-1 && input[i] != ' '&& input[i] != 'x'&& (char.IsDigit(input[i]) == false))
+                        {
+                            operation.Append(input[i]);
+                            i++;
+                        }
+
+                        i--;
+                        tokenList.Add(TokenCreate.FindAvilableByName(Convert.ToString(operation)));
+                    }
                     else
                     {
-                        tokenList.Add(new Operation { Value = input[i], priority = index[input[i]] });
+                        tokenList.Add(TokenCreate.FindAvilableByName(Convert.ToString(input[i])));
                     }
                 }
 
@@ -76,19 +126,19 @@
             return tokenList;
         }
 
-        public static double PerformСalculation(string input, double variableValue)
-        {
-            Dictionary<char, int> index = new Dictionary<char, int>();
-            index.Add('+', 1);
-            index.Add('-', 1);
-            index.Add('*', 2);
-            index.Add('/', 2);
+        //public static double PerformСalculation(string input, double variableValue)
+        //{
+        //    Dictionary<char, int> index = new Dictionary<char, int>();
+        //    index.Add('+', 1);
+        //    index.Add('-', 1);
+        //    index.Add('*', 2);
+        //    index.Add('/', 2);
 
-            List<Token> rpn = ToRPN(Parse(input,index), index);
+        //    List<Token> rpn = ToRPN(Parse(input, index), index);
 
 
-            return Calculate(rpn, variableValue);
-        }
+        //    return Calculate(rpn, variableValue);
+        //}
 
         public static List<Token> ToRPN(List<Token> tokenList, Dictionary<char, int> operations)
         {
@@ -102,22 +152,22 @@
                     RPN.Add(tokenList[i]);
                 }
 
-                else if (tokenList[i] is Operation)
-                {
-                    if ((stack.Count == 0) || (stack.Peek() is Parenthesis) || ((Operation)tokenList[i]).priority >= ((Operation)stack.Peek()).priority)
-                    {
-                        stack.Push(tokenList[i]);
-                    }
-                    else
-                    {
-                        while (stack.Count != 0 && ((Operation)tokenList[i]).priority < ((Operation)stack.Peek()).priority)
-                        {
-                            RPN.Add(stack.Pop());
-                        }
+                //else if (tokenList[i] is Operation)
+                //{
+                //    if ((stack.Count == 0) || (stack.Peek() is Parenthesis) || ((Operation)tokenList[i]).priority >= ((Operation)stack.Peek()).priority)
+                //    {
+                //        stack.Push(tokenList[i]);
+                //    }
+                //    else
+                //    {
+                //        while (stack.Count != 0 && ((Operation)tokenList[i]).priority < ((Operation)stack.Peek()).priority)
+                //        {
+                //            RPN.Add(stack.Pop());
+                //        }
 
-                        stack.Push(tokenList[i]);
-                    }
-                }
+                //        stack.Push(tokenList[i]);
+                //    }
+                //}
 
                 else
                 {
@@ -161,25 +211,25 @@
                     stack.Push(variableValue);
                 }
 
-                else
-                {
-                    switch ((char)((Operation)RPN[i]).Value)
-                    {
-                        case '+':
-                            stack.Push(stack.Pop() + stack.Pop());
-                            continue;
-                        case '-':
-                            stack.Push(-stack.Pop() + stack.Pop());
-                            continue;
-                        case '*':
-                            stack.Push(stack.Pop() * stack.Pop());
-                            continue;
-                        case '/':
-                            double divisor = stack.Pop();
-                            stack.Push(stack.Pop() / divisor);
-                            continue;
-                    }
-                }
+                //else
+                //{
+                //    switch ((char)((Operation)RPN[i]).Value)
+                //    {
+                //        case '+':
+                //            stack.Push(stack.Pop() + stack.Pop());
+                //            continue;
+                //        case '-':
+                //            stack.Push(-stack.Pop() + stack.Pop());
+                //            continue;
+                //        case '*':
+                //            stack.Push(stack.Pop() * stack.Pop());
+                //            continue;
+                //        case '/':
+                //            double divisor = stack.Pop();
+                //            stack.Push(stack.Pop() / divisor);
+                //            continue;
+                //    }
+                //}
             }
 
             double result = stack.Pop();

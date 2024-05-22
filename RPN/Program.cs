@@ -10,7 +10,7 @@ namespace RPN.ConsoleApp
     {
         static void Main()
         {
-            string input = "x+2";
+            string input = "x+2+log 2 4 ";
             double x = 5;
 
             Dictionary<char, int> index = new Dictionary<char, int>();

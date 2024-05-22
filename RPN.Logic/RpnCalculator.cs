@@ -1,6 +1,6 @@
 ﻿namespace RPN.Logic
 {
-    public class Token
+    public abstract class Token
     {
 
     }
@@ -27,19 +27,6 @@
     public class Number : Token
     {
         public double Value;
-        public override string ToString()
-        {
-            return Value.ToString();
-        }
-    }
-
-
-
-    public class Operation : Token
-    {
-        public char Value;
-        public int priority;
-
         public override string ToString()
         {
             return Value.ToString();

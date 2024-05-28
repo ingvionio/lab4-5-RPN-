@@ -27,7 +27,7 @@
         <TextBox x:Name="tbStart" HorizontalAlignment="Left" Margin="647,136,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="1"/>
         <TextBox x:Name="tbEnd" HorizontalAlignment="Left" Margin="647,176,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="10"/>
         <TextBox x:Name="tbStep" HorizontalAlignment="Left" Margin="647,218,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="1"/>
-        <Button x:Name="renew" Content="Обновить" HorizontalAlignment="Left" Margin="679,350,0,0" VerticalAlignment="Top" Click="renew_Click"/>
+        <Button x:Name="renew" Content="Обновить" HorizontalAlignment="Left" Margin="679,350,0,0" VerticalAlignment="Top" Click="Renew_Click"/>
         <TextBlock HorizontalAlignment="Left" Margin="647,115,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Language="ru-ru" Text="Начало"/></TextBlock>
         <TextBlock HorizontalAlignment="Left" Margin="647,155,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Language="ru-ru" Text="Конец"/></TextBlock>
         <TextBlock HorizontalAlignment="Left" Margin="647,199,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Language="ru-ru" Text="Шаг"/></TextBlock>

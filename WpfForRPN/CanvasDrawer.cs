@@ -138,7 +138,7 @@ namespace WpfForRPN
         private void DrawTickMarksOnXAxis()
         {
             double tickMarkLength = 5;
-            double tickMarkStep = _zoom;
+            double tickMarkStep = _zoom*_step;
 
             for (double x = (_xStart* _zoom + _canvas.ActualWidth / 2); x < (_xEnd * _zoom + _canvas.ActualWidth / 2); x += tickMarkStep)
             {
@@ -151,12 +151,10 @@ namespace WpfForRPN
         {
             DrawLine(canvas, startPoint, endPoint);
             double arrowLength = 10;
-            double arrowAngle = Math.PI / 6; // 30 degrees
+            double arrowAngle = Math.PI / 6; 
 
-            // Calculate the angle of the line
             double angle = Math.Atan2(endPoint.Y - startPoint.Y, endPoint.X - startPoint.X);
 
-            // Calculate the arrow points
             Point arrowPoint1 = new Point(
                 endPoint.X - arrowLength * Math.Cos(angle - arrowAngle),
                 endPoint.Y - arrowLength * Math.Sin(angle - arrowAngle)

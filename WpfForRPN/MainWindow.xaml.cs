@@ -32,6 +32,7 @@ namespace WpfForRPN
             Point uiPoint = Mouse.GetPosition(Graph);
             float zoom = float.Parse(tbZoom.Text);
             var mathPoint = Mouse.GetPosition(Graph).ToMathCoordinates(Graph, zoom);
+
             lblUiCord.Content = $"{uiPoint.X:0.#};{uiPoint.Y:0.#}";
             lblMathCord.Content = $"{mathPoint.X:0.#};{mathPoint.Y:0.#}";
         }
@@ -62,7 +63,7 @@ namespace WpfForRPN
             tbInput.Text = tbInput.Text.Trim();
         }
 
-        private void renew_Click(object sender, RoutedEventArgs e)
+        private void Renew_Click(object sender, RoutedEventArgs e)
         {
             RedrawCanvas();
         }

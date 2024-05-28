@@ -210,9 +210,5 @@ namespace RPN.Logic
             return new Number { Value = Math.Cos(num1.Value) / Math.Sin(num1.Value) };
         }
     }
-
-
-
-
 }
 

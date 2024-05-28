@@ -11,7 +11,7 @@ namespace RPN.ConsoleApp
         static void Main()
         {
             string input = "5-6*x+ctg1 ";
-            double[] x = { 5 };
+            double[] variableValues = { 5 };
 
             //List<Token> tokenList = RpnCalculator.Parse(input, index);
 
@@ -25,7 +25,7 @@ namespace RPN.ConsoleApp
             //    Console.Write(elements.ToString() + " ");
             //Console.WriteLine();
 
-            Console.WriteLine(RpnCalculator.PerformСalculation(input, x));
+            Console.WriteLine(RpnCalculator.PerformСalculation(input, variableValues));
         }
     }   
 }

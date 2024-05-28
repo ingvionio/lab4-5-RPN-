@@ -24,7 +24,7 @@
         </TextBox>
         <Label x:Name="lblUiCord" Content="" HorizontalAlignment="Left" Margin="46,520,0,0" VerticalAlignment="Top" Width="62"/>
         <Label x:Name="lblMathCord" Content="" HorizontalAlignment="Left" Margin="108,520,0,0" VerticalAlignment="Top" Width="62"/>
-        <TextBox x:Name="tbStart" HorizontalAlignment="Left" Margin="647,136,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="-10"/>
+        <TextBox x:Name="tbStart" HorizontalAlignment="Left" Margin="647,136,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="1"/>
         <TextBox x:Name="tbEnd" HorizontalAlignment="Left" Margin="647,176,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="10"/>
         <TextBox x:Name="tbStep" HorizontalAlignment="Left" Margin="647,218,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="1"/>
         <Button x:Name="renew" Content="Обновить" HorizontalAlignment="Left" Margin="679,350,0,0" VerticalAlignment="Top" Click="renew_Click"/>

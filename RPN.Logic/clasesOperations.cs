@@ -102,7 +102,7 @@ namespace RPN.Logic
             var num1 = numbers[0];
             var num2 = numbers[1];
 
-            return new Number { Value = Math.Log(num2.Value, num1.Value) };
+            return new Number { Value = Math.Log(num1.Value, num2.Value) };
         }
     }
 

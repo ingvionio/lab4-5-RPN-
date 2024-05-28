@@ -12,7 +12,7 @@ namespace RPN.Logic
 
     public class Variable : Token
     {
-        public char symbol;
+        public string symbol;
         public override string ToString()
         {
             return symbol.ToString();
@@ -78,10 +78,10 @@ namespace RPN.Logic
         }
     }
 
-    class RpnCalculator
+    public class RpnCalculator
     {
         private readonly List<Token> _rpn;
-        private static readonly char _variableNames = 'x' ;
+        private static readonly string[] _variableNames = { "x" } ;
    
         private static List<Token> Parse(string input)
         {
@@ -90,25 +90,30 @@ namespace RPN.Logic
             {
                 if ((char.IsDigit(input[i]) == false) && (input[i] != ' '))
                 {
-                    if (char.IsAsciiLetter(input[i]) && input[i] == _variableNames)
-                    {
-                        tokenList.Add(new Variable { symbol = input[i] });
-                    }
                     if (input[i] == '(' || input[i] == ')')
                     {
                         tokenList.Add(new Parenthesis { Value = input[i] });
                     }
-                    else if (char.IsAsciiLetter(input[i]) && input[i] != _variableNames)
+                    else if (char.IsAsciiLetter(input[i]))
                     {
                         StringBuilder operation = new StringBuilder();
-                        while (i!= input.Length-1 && input[i] != ' '&& input[i] != _variableNames && (char.IsDigit(input[i]) == false) && input[i] != '(')
+                        while (i!= input.Length && char.IsAsciiLetter(input[i]))
                         {
                             operation.Append(input[i]);
                             i++;
                         }
-
                         i--;
-                        tokenList.Add(TokenCreate.CreateOperation(Convert.ToString(operation)));
+
+                        if (_variableNames.Contains(operation.ToString()))
+                        {
+                            tokenList.Add(new Variable { symbol = operation.ToString() });
+                        }
+
+                        else
+                        {
+                            tokenList.Add(TokenCreate.CreateOperation(operation.ToString()));
+                        }
+
                     }
 
                     else
@@ -137,7 +142,7 @@ namespace RPN.Logic
             return tokenList;
         }
 
-        public static double PerformСalculation(string input, double variableValue)
+        public static double PerformСalculation(string input, double[] variableValue)
         {
             List<Token> rpn = ToRPN(Parse(input));
             return Calculate(rpn, variableValue);
@@ -198,7 +203,7 @@ namespace RPN.Logic
             return RPN;
         }
 
-        public static double Calculate(List<Token> RPN, double variableValue)
+        public static double Calculate(List<Token> RPN, double[] variableValue)
         {
             Stack<Number> stack = new Stack<Number>();
 
@@ -211,7 +216,8 @@ namespace RPN.Logic
 
                 else if (RPN[i] is Variable)
                 {
-                    stack.Push(new Number { Value = variableValue });
+                    int index = Array.IndexOf(_variableNames, ((Variable)RPN[i]).symbol );
+                    stack.Push(new Number { Value = variableValue[index] });
                 }
 
                 else

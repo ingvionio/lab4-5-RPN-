@@ -10,6 +10,8 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using RPN.Logic;
 using System.Windows.Documents;
+using System.CodeDom;
+using System.Xml.Linq;
 
 namespace WpfForRPN
 {
@@ -59,7 +61,9 @@ namespace WpfForRPN
             var points = new List<Point>();
             for (double x = _xStart; x <= _xEnd; x = x+_step)
             {
-                double y = RpnCalculator.PerformСalculation(expression, x);
+                double[] variable = new double[1];
+                variable[0] = x;
+                double y = RpnCalculator.PerformСalculation(expression, variable);
                 var point = new Point(x, y);
                 points.Add(PointExtensions.ToUiCoordinates(point, _canvas, _zoom));
             }
@@ -91,16 +95,23 @@ namespace WpfForRPN
 
         public static void DrawLine(Canvas canvas, Point startPoint, Point endPoint, Brush color)
         {
-            Line line = new Line
+            try
             {
-                X1 = startPoint.X,
-                Y1 = startPoint.Y,
-                X2 = endPoint.X,
-                Y2 = endPoint.Y,
-                Stroke = color,
-                StrokeThickness = 1
-            };
-            canvas.Children.Add(line);
+                Line line = new Line
+                {
+                    X1 = startPoint.X,
+                    Y1 = startPoint.Y,
+                    X2 = endPoint.X,
+                    Y2 = endPoint.Y,
+                    Stroke = color,
+                    StrokeThickness = 1
+                };
+                canvas.Children.Add(line);
+            }
+            catch 
+            {
+                throw new ArgumentException($"Некорректное значение в точке {startPoint.X}");
+            }
         }
         public static void DrawLine(Canvas canvas, Point startPoint, Point endPoint)
         {
